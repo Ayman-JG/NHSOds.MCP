@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'file=\"$CLAUDE_TOOL_INPUT_FILE_PATH\"; if [[ \"$file\" == *NHSOdsTools.cs ]]; then echo \"[hook] Editing tools file — ensure [McpServerTool] and [Description] are present on every new method\"; fi'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'file=\"$CLAUDE_TOOL_INPUT_FILE_PATH\"; if [[ \"$file\" == *.cs ]]; then echo \"[hook] C# file modified: $file — run dotnet build to verify\"; fi'"
+          }
+        ]
+      }
+    ]
+  }
+}
