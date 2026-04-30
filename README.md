@@ -104,9 +104,23 @@ Models/OdsModels.cs
 
 ## CI/CD
 
-GitHub Actions pipeline (`.github/workflows/ci.yml`):
+**Build & test** (`.github/workflows/ci.yml`):
 - **Push / PR to main**: build + test
 - **Release published**: pack and publish to NuGet
+
+**Automated PR review** (`.github/workflows/pr-review.yml`):
+
+Every pull request is reviewed by Claude Code via [`anthropics/claude-code-action`](https://github.com/anthropics/claude-code-action). Claude reads the diff and posts a comment enforcing project conventions — `[McpServerTool]`/`[Description]` attributes, the `OrgId` model duality, stderr-only logging, and `HttpClient` lifetime rules.
+
+You can also trigger a review on demand by commenting `@claude` on any PR.
+
+### Required secret
+
+Add your Anthropic API key to the repository before the workflow can run:
+
+1. Go to **Settings → Secrets and variables → Actions**
+2. Click **New repository secret**
+3. Name: `ANTHROPIC_API_KEY`, value: your key from [console.anthropic.com](https://console.anthropic.com)
 
 ---
 
