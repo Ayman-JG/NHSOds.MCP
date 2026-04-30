@@ -1,0 +1,47 @@
+name: PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  claude-review:
+    name: Claude Code Review
+    # Run on new/updated PRs, or when someone comments @claude on a PR
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request != null &&
+       contains(github.event.comment.body, '@claude'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so Claude can read git context
+
+      - uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # On PR open/sync: automatic review focused on this codebase's conventions.
+          # On @claude comment: answer the question or fulfil the request directly.
+          direct_prompt: |
+            You are reviewing a pull request on NHSOds.MCP — a C# .NET 9 MCP server
+            wrapping the NHS Organisation Data Service (ODS).
+
+            Key conventions to enforce:
+            - Every public method in NHSOdsTools.cs MUST have [McpServerTool] and [Description] attributes.
+            - New org types must add a role constant to OdsApiClient AND a corresponding tool method.
+            - Logging must go to ILogger (stderr), never Console.Write/WriteLine (corrupts stdio JSON-RPC).
+            - OrgId is a string in OdsSearchResponse and an object (with Extension) in OdsDetailResponse — models must handle both.
+            - HttpClient lifetime is managed by IHttpClientFactory; never new up HttpClient directly.
+            - dotnet build must pass — remind the author to run it locally if any .cs file changes look risky.
+
+            Review the diff for correctness, adherence to these conventions, and any obvious bugs.
+            Post a concise review comment on the PR. If everything looks good, say so clearly.
