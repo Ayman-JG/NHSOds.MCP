@@ -19,7 +19,7 @@ public sealed class OdsApiClient(HttpClient http)
         => SearchAsync(name: query, postcode: postcode, role: RoleGpPractice, ct);
 
     public Task<OdsSearchResponse?> FindPharmaciesAsync(string query, string? postcode = null, CancellationToken ct = default)
-        => SearchAsync(name: query, postcode: postcode, role: RolePharmacy, ct:ct);
+        => SearchAsync(name: query, postcode: postcode, role: RolePharmacy, ct: ct);
 
     public Task<OdsSearchResponse?> FindNhsTrustsAsync(string query, CancellationToken ct = default)
         => SearchAsync(name: query, role: RoleNhsTrust, ct);
