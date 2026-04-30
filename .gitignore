@@ -1,0 +1,15 @@
+## .NET
+bin/
+obj/
+*.user
+.vs/
+artifacts/
+
+## Rider
+.idea/
+
+## VS Code
+.vscode/
+
+## macOS
+.DS_Store

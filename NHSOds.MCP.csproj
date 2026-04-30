@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>NHSOds.MCP</RootNamespace>
+    <AssemblyName>NHSOds.MCP</AssemblyName>
+
+    <!-- NuGet package metadata -->
+    <PackageId>NHSOds.MCP</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Ayman Rezzou</Authors>
+    <Description>
+      A C# .NET 9 Model Context Protocol server wrapping the NHS Organisation Data Service (ODS).
+      Exposes GP practices, pharmacies, and NHS trusts as agentic tools consumable by Claude Code,
+      Claude Desktop, or any MCP-compatible client. No API key required.
+    </Description>
+    <PackageTags>mcp;nhs;ods;healthcare;dotnet;claude</PackageTags>
+    <RepositoryUrl>https://github.com/aymanrezzou/NHSOds.MCP</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" Version="1.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>
