@@ -113,3 +113,41 @@ GitHub Actions pipeline (`.github/workflows/ci.yml`):
 ## License
 
 MIT
+
+---
+
+## Agentic development workflow
+
+This project is built and maintained using a Claude Code multi-agent workflow defined in `.claude/`.
+
+### Sub-agents
+
+| Agent | When to use |
+|---|---|
+| `tool-scaffolder` | Adding a new NHS org type — writes the role constant, API method, and MCP tool end-to-end |
+| `test-writer` | Writing xUnit integration tests for any tool against the live ODS API |
+| `api-validator` | Checking that live ODS API responses match `OdsModels.cs` before writing any code |
+
+### Slash commands
+
+| Command | What it does |
+|---|---|
+| `/add-tool <role-code> <display-name>` | Full pipeline: validate API → scaffold code → write tests → build |
+| `/validate-api <role-code>` | Run `api-validator` and get a SAFE/ISSUES verdict before touching code |
+| `/test` | Run the test suite and get a clean pass/fail summary |
+
+### Hooks
+
+Two hooks in `.claude/settings.json` guard code quality automatically:
+- **PreToolUse** on `NHSOdsTools.cs` — reminds to include `[McpServerTool]` and `[Description]` on every new method
+- **PostToolUse** on any `.cs` file — reminds to run `dotnet build` after edits
+
+### Adding a new org type
+
+The fastest path — one command orchestrates the full pipeline:
+
+```
+/add-tool RO110 "General Dental Practice"
+```
+
+Under the hood this: validates the API shape, scaffolds the C# code, writes integration tests, and runs `dotnet build` to confirm everything compiles.
