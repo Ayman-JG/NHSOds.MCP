@@ -26,14 +26,20 @@ No API key required. The ODS API is completely open.
 ### Run locally
 
 ```bash
-git clone https://github.com/aymanrezzou/NHSOds.MCP
+git clone https://github.com/Ayman-JG/NHSOds.MCP
 cd NHSOds.MCP
 dotnet run
 ```
 
 ### Connect to Claude Desktop
 
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+**Quickest way (macOS):** run the included setup script — it edits the config file for you:
+
+```bash
+bash add-to-claude.sh
+```
+
+**Manual setup:** add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
